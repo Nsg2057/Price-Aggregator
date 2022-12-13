@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping(path = "/api/db")
 public class ProductController {
     @Autowired
     ProductService productService;

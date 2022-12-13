@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/scraper")
+@RequestMapping(path = "/api/scraper/")
 public class FetchController {
 
     @Autowired
