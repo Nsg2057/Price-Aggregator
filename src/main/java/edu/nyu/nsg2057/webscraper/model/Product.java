@@ -9,7 +9,6 @@ public class Product {
     private String name;
     private String imgURL;
     private String modelID;
-//    private String WalmartURL;
     private Map<Ecom, EcomData> priceList;
 
     public Map<Ecom, EcomData> getPriceList() {

@@ -17,22 +17,14 @@ public class BestBuyScraper {
 
         EcomData ecomData = new EcomData();
         Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.BESTBUY_SEARCH + keyword));
-        System.out.println(6);
-        Optional<Element> element = doc.getElementsByClass("list-item lv")
-                .stream().filter(a -> !a.text().contains("Sponsored"))
-                .findFirst();
-        System.out.println("1");
-if (element.isPresent()){
-    ecomData.setPrice(element.get().text().substring(element.get().text().indexOf("$"), element.get().text().indexOf(".", element.get().text().indexOf("$"))+3));
-    String html = element.get().html();
-//    String id = html.substring(html.indexOf("data-testid=\"variant-")+21, html.indexOf("\"",html.indexOf("data-testid=\"variant-")+21));
-    ecomData.setURL(element.get().getElementsByTag("a").attr("href"));
-    System.out.println("2");
+        Optional<Element> element = doc.getElementsByClass("list-item lv").stream().filter(a -> !a.text().contains("Sponsored")).findFirst();
+        if (element.isPresent()) {
+            ecomData.setPrice(element.get().text().substring(element.get().text().indexOf("$"), element.get().text().indexOf(".", element.get().text().indexOf("$")) + 3));
+            ecomData.setURL(element.get().getElementsByTag("a").attr("href"));
+            System.out.println("2");
+        }
+
+        return ecomData;
+    }
 
 }
-        System.out.println("3");
-
-       return ecomData;
-    }
-
-    }

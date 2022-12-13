@@ -34,7 +34,7 @@ public class AmazonScraper {
         Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.AMAZON_LIST + keyword));
         Elements elements = doc.getElementsByAttribute("data-index");
         List<Product> productList = new ArrayList<>();
-        elements.stream().forEach(element -> {
+        elements.forEach(element -> {
             Product product = new Product();
             product.setName(element.getElementsByTag("h2").text());
             Elements s = element.getElementsByTag("h2").select("a");

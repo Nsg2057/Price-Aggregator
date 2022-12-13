@@ -13,7 +13,7 @@ public class TargetScraper {
     public String getTargetProductDetail(String keyword) {
 
         EcomData ecomData = new EcomData();
-        Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.TRAGET_SEARCH + keyword));
+        Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.TARGET_SEARCH + keyword));
         return doc.html();
     }
 
