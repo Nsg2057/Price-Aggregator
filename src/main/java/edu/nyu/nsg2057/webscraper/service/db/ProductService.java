@@ -14,7 +14,7 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
-    public List getAllProducts() {
+    public List<Product> getAllProducts() {
         List<Product> allProducts = productRepository.findAll();
         return allProducts;
     }
@@ -27,6 +27,7 @@ public class ProductService {
 
     public void updateProduct(Product product) {
         productRepository.save(product);
+        System.out.println("Product Updated");
     }
     public String saveProduct(Product p) {
 

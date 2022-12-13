@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class AmazonScraper {
 
     public List<Product> getAmazonProductDetail(String keyword) {
+        System.out.println("AmazonScraper");
         return getAmazonProductList(keyword).stream().map(this::getModelIDAmazon).filter(Product::isValidModel).collect(Collectors.toList());
     }
 

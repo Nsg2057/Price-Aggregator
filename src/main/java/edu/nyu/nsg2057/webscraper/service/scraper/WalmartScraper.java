@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service
 public class WalmartScraper {
     public EcomData getWalmartProductDetail(String keyword) {
-
+        System.out.println("WalmartScraper");
         EcomData ecomData = new EcomData();
         Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.WALMART_SEARCH + keyword));
         Optional<Element> element = doc.getElementsByAttributeValue("data-testid", "list-view").stream().filter(a -> !a.text().contains("Sponsored")).findFirst();

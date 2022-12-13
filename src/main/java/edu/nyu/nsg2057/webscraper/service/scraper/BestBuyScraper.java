@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service
 public class BestBuyScraper {
     public EcomData getProductDetail(String keyword) {
-
+        System.out.println("BestBuyScraper");
         EcomData ecomData = new EcomData();
         Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.BESTBUY_SEARCH + keyword));
         Optional<Element> element = doc.getElementsByClass("list-item lv").stream().filter(a -> !a.text().contains("Sponsored")).findFirst();
