@@ -33,7 +33,7 @@ public class ProductPriceJob {
 
 
     @Async
-        @Scheduled(fixedRate = 36000)
+        @Scheduled(fixedRate = 360000)
         public void scheduleFixedRateTaskAsync() throws InterruptedException {
         EmailDetails ed = new EmailDetails("venkatesha2017@gmail.com", "test","test");
         System.out.println(emailService.sendSimpleMail(ed));
