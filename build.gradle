@@ -20,6 +20,13 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.13'
 	//HTML Parser
 	implementation 'org.jsoup:jsoup:1.15.3'
+	// DB
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	//Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+//	runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {

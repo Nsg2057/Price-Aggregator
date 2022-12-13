@@ -1,16 +1,27 @@
 package edu.nyu.nsg2057.webscraper.model;
 
-import edu.nyu.nsg2057.webscraper.helper.Ecom;
+import edu.nyu.nsg2057.webscraper.constant.Ecom;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Map;
 import java.util.Optional;
-
+@Document("PRODUCT")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Product {
     private String name;
     private String imgURL;
+    @Id
     private String modelID;
-    private Map<Ecom, EcomData> priceList;
 
+    private Map<Ecom, EcomData> priceList;
     public Map<Ecom, EcomData> getPriceList() {
         return priceList;
     }

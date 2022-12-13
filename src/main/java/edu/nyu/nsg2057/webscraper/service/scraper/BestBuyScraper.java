@@ -1,4 +1,4 @@
-package edu.nyu.nsg2057.webscraper.service;
+package edu.nyu.nsg2057.webscraper.service.scraper;
 
 
 import edu.nyu.nsg2057.webscraper.constant.URLconstant;
@@ -21,7 +21,6 @@ public class BestBuyScraper {
         if (element.isPresent()) {
             ecomData.setPrice(element.get().text().substring(element.get().text().indexOf("$"), element.get().text().indexOf(".", element.get().text().indexOf("$")) + 3));
             ecomData.setURL(element.get().getElementsByTag("a").attr("href"));
-            System.out.println("2");
         }
 
         return ecomData;

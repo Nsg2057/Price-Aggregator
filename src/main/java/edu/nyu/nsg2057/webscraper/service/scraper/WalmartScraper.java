@@ -1,4 +1,4 @@
-package edu.nyu.nsg2057.webscraper.service;
+package edu.nyu.nsg2057.webscraper.service.scraper;
 
 
 import edu.nyu.nsg2057.webscraper.constant.URLconstant;
