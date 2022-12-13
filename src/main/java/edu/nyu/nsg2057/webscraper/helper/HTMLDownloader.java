@@ -14,7 +14,6 @@ import java.util.zip.GZIPInputStream;
 public class HTMLDownloader {
 
     public String getHTML(String URL) {
-        System.out.println(9);
         StringBuilder stringBuilder = new StringBuilder();
         try {
             if (URL.contains(URLconstant.TARGET)) throw new NullPointerException();
