@@ -3,6 +3,7 @@ package edu.nyu.nsg2057.webscraper.controller;
 import edu.nyu.nsg2057.webscraper.model.Monitor;
 import edu.nyu.nsg2057.webscraper.model.Product;
 import edu.nyu.nsg2057.webscraper.service.db.MonitorService;
+import edu.nyu.nsg2057.webscraper.service.db.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,16 +15,18 @@ import java.util.Optional;
 public class PriceMonitorController {
     @Autowired
     MonitorService monitorService;
+    @Autowired
+    SequenceGeneratorService sequenceGeneratorService;
     @PostMapping
     public String addMonitor(@RequestBody Monitor pm) {
-
+pm.setId(sequenceGeneratorService.generateSequence(Monitor.SEQUENCE_NAME));
         monitorService.saveMonitor(pm);
         return "Added Monitor id " + pm.getId();
     }
 
     @GetMapping("/{id}")
 
-    public Optional<Monitor> getProduct(@PathVariable Integer id) {
+    public Optional<Monitor> getProduct(@PathVariable Long id) {
 
         return  monitorService.getMonitorById(id);
     }
@@ -36,7 +39,7 @@ public class PriceMonitorController {
 
     @DeleteMapping
 
-    public String deleteProduct(@PathVariable Integer id) {
+    public String deleteProduct(@PathVariable Long id) {
 
         monitorService.delete(id);
 

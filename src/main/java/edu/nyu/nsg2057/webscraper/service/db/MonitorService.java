@@ -18,7 +18,7 @@ public class MonitorService {
         return allMonitors;
     }
 
-    public Optional<Monitor> getMonitorById(int id) {
+    public Optional<Monitor> getMonitorById(Long id) {
         Optional<Monitor> monitor = monitorRepository.findById(id);
 
         return monitor;
@@ -35,7 +35,8 @@ public class MonitorService {
         return "Added Monitor id " + monitor.getId();
     }
 
-    public void delete(Integer id) {
+    public void delete(Long id) {
         monitorRepository.deleteById(id);
     }
+
 }
