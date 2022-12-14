@@ -52,7 +52,7 @@ public class FetchController {
     EcomData walmartScrapper(@PathVariable Optional<String> keyword) {
         String product = "XR65A80K";
         if (keyword.isPresent()) product = keyword.get();
-        return walmartScraper.getWalmartProductDetail(product);
+        return walmartScraper.getProductDetail(product);
     }
 
     @GetMapping(value = {"/bestBuy", "/bestBuy/{keyword}"})
@@ -80,7 +80,7 @@ public class FetchController {
         for (Product p :
                 products) {
             String modelID = p.getModelID().strip();
-            EcomData w = walmartScraper.getWalmartProductDetail(modelID);
+            EcomData w = walmartScraper.getProductDetail(modelID);
             EcomData b = bestBuyScraper.getProductDetail(modelID);
             Map<Ecom, EcomData> g = p.getPriceList();
             g.put(Ecom.WALMART, w);

@@ -3,6 +3,7 @@ package edu.nyu.nsg2057.webscraper.service.scraper;
 import edu.nyu.nsg2057.webscraper.constant.URLconstant;
 import edu.nyu.nsg2057.webscraper.constant.Ecom;
 import edu.nyu.nsg2057.webscraper.helper.HTMLDownloader;
+import edu.nyu.nsg2057.webscraper.helper.StringPraser;
 import edu.nyu.nsg2057.webscraper.model.EcomData;
 import edu.nyu.nsg2057.webscraper.model.Product;
 import org.jsoup.Jsoup;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class AmazonScraper {
+public class AmazonScraper implements Scraper {
 
     public List<Product> getAmazonProductDetail(String keyword) {
         System.out.println("AmazonScraper");
@@ -53,6 +54,15 @@ public class AmazonScraper {
             if (product.isValid(Ecom.AMAZON)) productList.add(product);
         });
         return productList;
+    }
+    public Double getPriceChange(String endpoint) {
+        Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.AMAZON + endpoint));
+        return new StringPraser(doc.getElementsByAttributeValueStarting("class","a-price").first().text()).getPrice();
+    }
+
+    @Override
+    public EcomData getProductDetail(String keyword) {
+        return null;
     }
 
 }

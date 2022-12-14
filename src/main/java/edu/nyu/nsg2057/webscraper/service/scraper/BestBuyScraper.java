@@ -3,6 +3,7 @@ package edu.nyu.nsg2057.webscraper.service.scraper;
 
 import edu.nyu.nsg2057.webscraper.constant.URLconstant;
 import edu.nyu.nsg2057.webscraper.helper.HTMLDownloader;
+import edu.nyu.nsg2057.webscraper.helper.StringPraser;
 import edu.nyu.nsg2057.webscraper.model.EcomData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class BestBuyScraper {
+public class BestBuyScraper implements Scraper{
     public EcomData getProductDetail(String keyword) {
         System.out.println("BestBuyScraper");
         EcomData ecomData = new EcomData();
@@ -24,6 +25,10 @@ public class BestBuyScraper {
         }
 
         return ecomData;
+    }
+    public Double getPriceChange(String endpoint) {
+        Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.BESTBUY + endpoint));
+        return new StringPraser(doc.getElementsByAttributeValueStarting("class","price-box").first().text()).getPrice();
     }
 
 }

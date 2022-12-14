@@ -1,9 +1,11 @@
 package edu.nyu.nsg2057.webscraper.model;
 
+import edu.nyu.nsg2057.webscraper.helper.StringPraser;
+
 public class EcomData {
 
     private String URL;
-    private String Price;
+    private Double Price;
 
     public String getURL() {
         return URL;
@@ -13,11 +15,14 @@ public class EcomData {
         this.URL = URL;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return Price;
     }
 
     public void setPrice(String price) {
+        Price = new StringPraser().getDoublePrice(price);
+    }
+    public void setPrice(Double price) {
         Price = price;
     }
 

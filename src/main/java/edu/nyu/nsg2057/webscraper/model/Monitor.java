@@ -14,10 +14,18 @@ public class Monitor {
     private String URL;
     private Ecom ecom;
     private String modelID;
-    private int price;
+    private Double price;
     private int threshold;
     private String emailID;
+    private String name;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getURL() {
         return URL;
@@ -43,11 +51,11 @@ public class Monitor {
         this.modelID = modelID;
     }
 
-    public int getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -75,4 +83,17 @@ public class Monitor {
         this.emailID = emailID;
     }
 
+    @Override
+    public String toString() {
+        return "Monitor{" +
+                "id=" + id +
+                ", URL='" + URL + '\'' +
+                ", ecom=" + ecom +
+                ", modelID='" + modelID + '\'' +
+                ", price=" + price +
+                ", threshold=" + threshold +
+                ", emailID='" + emailID + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
