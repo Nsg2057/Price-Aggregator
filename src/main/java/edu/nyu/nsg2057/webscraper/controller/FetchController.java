@@ -80,6 +80,10 @@ public class FetchController {
         for (Product p :
                 products) {
             String modelID = p.getModelID().strip();
+            modelID = URLEncoder.encode(
+                    modelID,
+                    StandardCharsets.UTF_8
+            );
             EcomData w = walmartScraper.getProductDetail(modelID);
             EcomData b = bestBuyScraper.getProductDetail(modelID);
             Map<Ecom, EcomData> g = p.getPriceList();

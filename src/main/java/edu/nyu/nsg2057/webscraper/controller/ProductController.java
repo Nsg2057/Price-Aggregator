@@ -10,34 +10,33 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/db")
+@RequestMapping(path = "/api/product")
 public class ProductController {
     @Autowired
     ProductService productService;
 
     @PostMapping
-            ("/add")
     public String saveProduct(@RequestBody Product p) {
 
         productService.saveProduct(p);
         return "Added Product id " + p.getModelID();
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
 
     public Optional<Product> getProduct(@PathVariable String id) {
 
        return  productService.getProductById(id);
     }
 
-    @GetMapping("/all")
+    @GetMapping
 
     public List<Product> getAllProduct() {
 
 return productService.getAllProducts();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
 
     public String deleteProduct(@PathVariable String id) {
 
@@ -46,7 +45,7 @@ return productService.getAllProducts();
         return "Delete pro for id " + id;
     }
 
-    @PutMapping("/update")
+    @PutMapping
 
     public String updateProduct(@RequestBody Product e) {
 

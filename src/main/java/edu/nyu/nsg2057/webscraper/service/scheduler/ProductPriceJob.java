@@ -1,6 +1,7 @@
 package edu.nyu.nsg2057.webscraper.service.scheduler;
 
 import edu.nyu.nsg2057.webscraper.constant.Ecom;
+import edu.nyu.nsg2057.webscraper.constant.URLconstant;
 import edu.nyu.nsg2057.webscraper.model.EcomData;
 import edu.nyu.nsg2057.webscraper.model.EmailDetails;
 import edu.nyu.nsg2057.webscraper.model.Product;
@@ -76,6 +77,7 @@ public class ProductPriceJob {
                         "Price changed from " + a.getPrice() + " to " + p +
                         "\n" +
                         "\n" +
+                       getHomePage(a.getEcom())+ a.getURL()+
                         "\n" +
                         a;
                 EmailDetails ed = new EmailDetails(a.getEmailID(), sb, "Price Changed " + a.getModelID());
@@ -94,6 +96,20 @@ public class ProductPriceJob {
                 return new BestBuyScraper();
             case WALMART:
                 return new WalmartScraper();
+            default:
+                return null;
+        }
+
+    }
+
+    String getHomePage(Ecom ecom) {
+        switch (ecom) {
+            case AMAZON:
+                return URLconstant.AMAZON;
+            case BESTBUY:
+                return URLconstant.BESTBUY;
+            case WALMART:
+                return URLconstant.WALMART;
             default:
                 return null;
         }

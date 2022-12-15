@@ -12,7 +12,10 @@ public class StringPraser {
     }
 
     public Double getDoublePrice(String line){
-        return Double.valueOf(line.replaceAll("$","").replaceAll(",",""));
+        line = line.replaceAll("\\$","");
+        line = line.replaceAll(",","");
+        System.out.println(line);
+        return Double.valueOf(line);
     }
 
     public StringPraser(String line) {
