@@ -28,7 +28,8 @@ public class BestBuyScraper implements Scraper{
     }
     public Double getPriceChange(String endpoint) {
         Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.BESTBUY + endpoint));
-        return new StringPraser(doc.getElementsByAttributeValueStarting("class","price-box").first().text()).getPrice();
+        Optional<Element> e = Optional.ofNullable(doc.getElementsByAttributeValueStarting("class","price-box").first());
+        return e.map(element -> new StringPraser(element.text()).getPrice()).orElse(null);
     }
 
 }

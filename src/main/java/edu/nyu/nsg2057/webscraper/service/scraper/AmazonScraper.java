@@ -57,7 +57,8 @@ public class AmazonScraper implements Scraper {
     }
     public Double getPriceChange(String endpoint) {
         Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.AMAZON + endpoint));
-        return new StringPraser(doc.getElementsByAttributeValueStarting("class","a-price").first().text()).getPrice();
+        Optional<Element> e = Optional.ofNullable(doc.getElementsByAttributeValueStarting("class","a-price").first());
+        return e.map(element -> new StringPraser(element.text()).getPrice()).orElse(null);
     }
 
     @Override

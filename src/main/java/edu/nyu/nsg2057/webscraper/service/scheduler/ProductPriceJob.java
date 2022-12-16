@@ -42,7 +42,7 @@ public class ProductPriceJob {
     public void updateProductDB() {
         EmailDetails ed = new EmailDetails("venkatesha2017@gmail.com", "test", "test");
         System.out.println(emailService.sendSimpleMail(ed));
-        System.out.println("updateProduct JOB - " + System.currentTimeMillis() / 1000);
+        System.out.println("updateProduct JOB - ");
         productService.getAllProducts().forEach(this::priceFetchJob);
     }
 
@@ -53,9 +53,9 @@ public class ProductPriceJob {
         EcomData a = g.get(Ecom.AMAZON);
         EcomData w = g.get(Ecom.WALMART);
         EcomData b = g.get(Ecom.BESTBUY);
-        a.setPrice(amazonScraper.getPriceChange(a.getURL()));
-        w.setPrice(walmartScraper.getPriceChange(w.getURL()));
-        b.setPrice(bestBuyScraper.getPriceChange(b.getURL()));
+        if (a.getURL() != null)a.setPrice(amazonScraper.getPriceChange(a.getURL()));
+        if (w.getURL() != null)w.setPrice(walmartScraper.getPriceChange(w.getURL()));
+        if (b.getURL() != null)b.setPrice(bestBuyScraper.getPriceChange(b.getURL()));
         g.put(Ecom.WALMART, w);
         g.put(Ecom.BESTBUY, b);
         g.put(Ecom.AMAZON, a);

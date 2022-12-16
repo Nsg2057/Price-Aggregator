@@ -14,14 +14,12 @@ public class MonitorService {
     MonitorRepository monitorRepository;
 
     public List<Monitor> getAllMonitors() {
-        List<Monitor> allMonitors = monitorRepository.findAll();
-        return allMonitors;
+        return monitorRepository.findAll();
     }
 
     public Optional<Monitor> getMonitorById(Long id) {
-        Optional<Monitor> monitor = monitorRepository.findById(id);
 
-        return monitor;
+        return monitorRepository.findById(id);
     }
 
     public void updateMonitor(Monitor monitor) {

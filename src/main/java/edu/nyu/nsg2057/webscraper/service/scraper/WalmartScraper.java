@@ -31,7 +31,8 @@ public class WalmartScraper implements Scraper{
     }
     public Double getPriceChange(String endpoint) {
         Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.WALMART + endpoint));
-        return new StringPraser(doc.getElementsByAttributeValue("itemprop","price").first().text()).getPrice();
+        Optional<Element> e = Optional.ofNullable(doc.getElementsByAttributeValue("itemprop","price").first());
+        return e.map(element -> new StringPraser(element.text()).getPrice()).orElse(null);
     }
 
 }
