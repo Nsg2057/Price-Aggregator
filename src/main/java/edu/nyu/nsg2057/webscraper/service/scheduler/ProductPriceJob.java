@@ -39,22 +39,26 @@ public class ProductPriceJob {
 
     @Async
     @Scheduled(fixedRate = 360000)
-    public void updateProductDB() throws InterruptedException {
+    public void updateProductDB() {
         EmailDetails ed = new EmailDetails("venkatesha2017@gmail.com", "test", "test");
         System.out.println(emailService.sendSimpleMail(ed));
-        System.out.println(
-                "updateProduct JOB - " + System.currentTimeMillis() / 1000);
-//        productService.getAllProducts().forEach(p -> priceFetchJob(p));
+        System.out.println("updateProduct JOB - " + System.currentTimeMillis() / 1000);
+        productService.getAllProducts().forEach(this::priceFetchJob);
     }
 
 
     private void priceFetchJob(Product p) {
         String modelID = p.getModelID().strip();
-        EcomData w = walmartScraper.getProductDetail(modelID);
-        EcomData b = bestBuyScraper.getProductDetail(modelID);
         Map<Ecom, EcomData> g = p.getPriceList();
+        EcomData a = g.get(Ecom.AMAZON);
+        EcomData w = g.get(Ecom.WALMART);
+        EcomData b = g.get(Ecom.BESTBUY);
+        a.setPrice(amazonScraper.getPriceChange(a.getURL()));
+        w.setPrice(walmartScraper.getPriceChange(w.getURL()));
+        b.setPrice(bestBuyScraper.getPriceChange(b.getURL()));
         g.put(Ecom.WALMART, w);
         g.put(Ecom.BESTBUY, b);
+        g.put(Ecom.AMAZON, a);
         p.setPriceList(g);
         productService.updateProduct(p);
     }
@@ -62,24 +66,14 @@ public class ProductPriceJob {
 
     @Async
     @Scheduled(fixedRate = 360000)
-    public void checkPriceChange() throws InterruptedException {
+    public void checkPriceChange(){
 
-        System.out.println(
-                "PriceChange JOB - " + System.currentTimeMillis() / 1000);
+        System.out.println("PriceChange JOB - " + System.currentTimeMillis() / 1000);
         monitorService.getAllMonitors().forEach(a -> {
             Scraper s = createObject(a.getEcom());
             Double p = s.getPriceChange(a.getURL());
             if (!p.equals(a.getPrice())) {
-                String sb = "Product = " + a.getName() +
-                        "\n" +
-                        "in " + a.getEcom() +
-                        "\n" +
-                        "Price changed from " + a.getPrice() + " to " + p +
-                        "\n" +
-                        "\n" +
-                       getHomePage(a.getEcom())+ a.getURL()+
-                        "\n" +
-                        a;
+                String sb = "Product = " + a.getName() + "\n" + "in " + a.getEcom() + "\n" + "Price changed from " + a.getPrice() + " to " + p + "\n" + "\n" + getHomePage(a.getEcom()) + a.getURL() + "\n" + a;
                 EmailDetails ed = new EmailDetails(a.getEmailID(), sb, "Price Changed " + a.getModelID());
                 System.out.println(emailService.sendSimpleMail(ed));
                 a.setPrice(p);
