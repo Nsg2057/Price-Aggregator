@@ -69,7 +69,7 @@ public class ProductPriceJob {
         monitorService.getAllMonitors().forEach(a -> {
             Scraper s = createObject(a.getEcom());
             Double p = s.getPriceChange(a.getURL());
-            if (p != a.getPrice()) {
+            if (!p.equals(a.getPrice())) {
                 String sb = "Product = " + a.getName() +
                         "\n" +
                         "in " + a.getEcom() +
@@ -82,6 +82,8 @@ public class ProductPriceJob {
                         a;
                 EmailDetails ed = new EmailDetails(a.getEmailID(), sb, "Price Changed " + a.getModelID());
                 System.out.println(emailService.sendSimpleMail(ed));
+                a.setPrice(p);
+                monitorService.updateMonitor(a);
             }
 
         });
