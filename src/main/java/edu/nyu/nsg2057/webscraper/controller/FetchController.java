@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import static edu.nyu.nsg2057.webscraper.helper.StringPraser.encoder;
 
@@ -71,19 +72,14 @@ public class FetchController {
     @GetMapping(path = "/comparePrice/{keyword}")
     List<Product> comparePrice(@PathVariable("keyword") String keyword) {
         System.out.println(keyword);
-        List<Product> output = new ArrayList<>();
         ExecutorService executor = Executors.newCachedThreadPool();
-        amazonScraper.getAmazonProductDetail(encoder(keyword)).parallelStream().peek(p ->{
+        return amazonScraper.getAmazonProductDetail(encoder(keyword)).parallelStream().peek(p ->{
             String modelID = encoder(p.getModelID().strip());
             Map<Ecom, EcomData> g = p.getPriceList();
             g.put(Ecom.WALMART, walmartScraper.getProductDetail(modelID));
             g.put(Ecom.BESTBUY, bestBuyScraper.getProductDetail(modelID));
             p.setPriceList(g);
-            output.add(p);
-        }).forEach( p -> executor.submit(() -> productService.updateProduct(p)));
-        executor.shutdown();
-        System.out.println("returned");
-        return output;
+        }).peek( p -> executor.execute(() -> productService.updateProduct(p))).collect(Collectors.toList());
     }
 
 }
