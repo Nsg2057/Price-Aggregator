@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Map;
 import java.util.Optional;
+
 @Document("PRODUCT")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +23,7 @@ public class Product {
     private String modelID;
 
     private Map<Ecom, EcomData> priceList;
+
     public Map<Ecom, EcomData> getPriceList() {
         return priceList;
     }
@@ -43,7 +45,7 @@ public class Product {
     }
 
     public void setImgURL(String imgURL) {
-        this.imgURL = imgURL.replaceAll("._AC_UY218_","");
+        this.imgURL = imgURL.replaceAll("._AC_UY218_", "");
     }
 
 
@@ -56,11 +58,12 @@ public class Product {
     }
 
     public Boolean isValid(Ecom ecom) {
-       if(Optional.ofNullable(getPriceList().get(ecom).getURL()).isPresent()){
-           return Optional.of(getPriceList().get(ecom).getURL()).get().length() < 200;
-       }
-           return false;
+        if (Optional.ofNullable(getPriceList().get(ecom).getURL()).isPresent()) {
+            return Optional.of(getPriceList().get(ecom).getURL()).get().length() < 200;
+        }
+        return false;
     }
+
     public Boolean isValidModel() {
         return Optional.ofNullable(getModelID()).isPresent();
     }

@@ -41,10 +41,10 @@ public class ProductPriceJob {
     @Async
     @Scheduled(fixedRate = 360000)
     public void updateProductDB() {
-        EmailDetails ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Started", "Update product Job Started at "+LocalDateTime.now());
+        EmailDetails ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Started", "Update product Job Started at " + LocalDateTime.now());
         System.out.println(emailService.sendSimpleMail(ed));
 //        productService.getAllProducts().forEach(this::priceFetchJob);
-        ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Stopped", "Update product Job Stopped at "+LocalDateTime.now());
+        ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Stopped", "Update product Job Stopped at " + LocalDateTime.now());
         System.out.println(emailService.sendSimpleMail(ed));
     }
 
@@ -54,9 +54,9 @@ public class ProductPriceJob {
         EcomData a = g.get(Ecom.AMAZON);
         EcomData w = g.get(Ecom.WALMART);
         EcomData b = g.get(Ecom.BESTBUY);
-        if (a.getURL() != null)a.setPrice(amazonScraper.getPriceChange(a.getURL()));
-        if (w.getURL() != null)w.setPrice(walmartScraper.getPriceChange(w.getURL()));
-        if (b.getURL() != null)b.setPrice(bestBuyScraper.getPriceChange(b.getURL()));
+        if (a.getURL() != null) a.setPrice(amazonScraper.getPriceChange(a.getURL()));
+        if (w.getURL() != null) w.setPrice(walmartScraper.getPriceChange(w.getURL()));
+        if (b.getURL() != null) b.setPrice(bestBuyScraper.getPriceChange(b.getURL()));
         g.put(Ecom.WALMART, w);
         g.put(Ecom.BESTBUY, b);
         g.put(Ecom.AMAZON, a);
@@ -67,7 +67,7 @@ public class ProductPriceJob {
 
     @Async
     @Scheduled(fixedRate = 3600000)
-    public void checkPriceChange(){
+    public void checkPriceChange() {
 
         System.out.println("PriceChange JOB - " + System.currentTimeMillis() / 1000);
         monitorService.getAllMonitors().forEach(a -> {

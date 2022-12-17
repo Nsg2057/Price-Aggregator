@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class WebscraperApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WebscraperApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(WebscraperApplication.class, args);
+    }
 
 }

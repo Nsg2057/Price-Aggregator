@@ -1,7 +1,7 @@
 package edu.nyu.nsg2057.webscraper.service.scraper;
 
-import edu.nyu.nsg2057.webscraper.constant.URLconstant;
 import edu.nyu.nsg2057.webscraper.constant.Ecom;
+import edu.nyu.nsg2057.webscraper.constant.URLconstant;
 import edu.nyu.nsg2057.webscraper.helper.HTMLDownloader;
 import edu.nyu.nsg2057.webscraper.helper.StringPraser;
 import edu.nyu.nsg2057.webscraper.model.EcomData;
@@ -57,9 +57,10 @@ public class AmazonScraper implements Scraper {
         });
         return productList;
     }
+
     public Double getPriceChange(String endpoint) {
         Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.AMAZON + endpoint));
-        Optional<Element> e = Optional.ofNullable(doc.getElementsByAttributeValueStarting("class","a-price").first());
+        Optional<Element> e = Optional.ofNullable(doc.getElementsByAttributeValueStarting("class", "a-price").first());
         return e.map(element -> new StringPraser(element.text()).getPrice()).orElse(null);
     }
 

@@ -26,6 +26,7 @@ public class ProductService {
         productRepository.save(product);
         System.out.println("Product Updated");
     }
+
     public String saveProduct(Product p) {
 
         productRepository.insert(p);

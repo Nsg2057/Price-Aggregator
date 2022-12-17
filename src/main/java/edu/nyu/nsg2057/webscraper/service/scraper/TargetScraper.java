@@ -3,7 +3,6 @@ package edu.nyu.nsg2057.webscraper.service.scraper;
 
 import edu.nyu.nsg2057.webscraper.constant.URLconstant;
 import edu.nyu.nsg2057.webscraper.helper.HTMLDownloader;
-import edu.nyu.nsg2057.webscraper.model.EcomData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
@@ -15,4 +14,4 @@ public class TargetScraper {
         return doc.html();
     }
 
-    }
+}

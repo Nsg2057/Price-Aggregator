@@ -16,21 +16,21 @@ public class ProductController {
 
     @PostMapping
     public String saveProduct(@RequestBody Product p) {
-        return  productService.saveProduct(p);
+        return productService.saveProduct(p);
     }
 
     @GetMapping("/{id}")
 
     public Optional<Product> getProduct(@PathVariable String id) {
 
-       return  productService.getProductById(id);
+        return productService.getProductById(id);
     }
 
     @GetMapping
 
     public List<Product> getAllProduct() {
 
-return productService.getAllProducts();
+        return productService.getAllProducts();
     }
 
     @DeleteMapping("/{id}")

@@ -22,6 +22,7 @@ public class EcomData {
     public void setPrice(String price) {
         Price = new StringPraser().getDoublePrice(price);
     }
+
     public void setPrice(Double price) {
         Price = price;
     }

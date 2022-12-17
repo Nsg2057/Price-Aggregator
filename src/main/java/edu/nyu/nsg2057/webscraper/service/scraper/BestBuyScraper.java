@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class BestBuyScraper implements Scraper{
+public class BestBuyScraper implements Scraper {
     public EcomData getProductDetail(String keyword) {
         EcomData ecomData = new EcomData();
         Document doc = new HTMLDownloader().getHTMLfromJSP(URLconstant.BESTBUY_SEARCH + keyword);
@@ -25,9 +25,10 @@ public class BestBuyScraper implements Scraper{
 
         return ecomData;
     }
+
     public Double getPriceChange(String endpoint) {
         Document doc = new HTMLDownloader().getHTMLfromJSP(URLconstant.BESTBUY + endpoint);
-        Optional<Element> e = Optional.ofNullable(doc.getElementsByAttributeValueStarting("class","price-box").first());
+        Optional<Element> e = Optional.ofNullable(doc.getElementsByAttributeValueStarting("class", "price-box").first());
         return e.map(element -> new StringPraser(element.text()).getPrice()).orElse(null);
     }
 

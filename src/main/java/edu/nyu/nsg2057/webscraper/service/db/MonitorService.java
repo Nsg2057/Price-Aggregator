@@ -26,6 +26,7 @@ public class MonitorService {
         monitorRepository.save(monitor);
         System.out.println("Monitor Updated");
     }
+
     public String saveMonitor(Monitor monitor) {
 
         monitorRepository.insert(monitor);

@@ -18,5 +18,5 @@ public class HTTPCaller {
         return myURLConnection;
     }
 
-    
+
 }

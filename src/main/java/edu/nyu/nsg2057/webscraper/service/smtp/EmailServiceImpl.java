@@ -14,11 +14,11 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Value("${spring.mail.username}") private String sender;
+    @Value("${spring.mail.username}")
+    private String sender;
 
     @Override
-    public String sendSimpleMail(EmailDetails details)
-    {
+    public String sendSimpleMail(EmailDetails details) {
 
         try {
 
@@ -31,10 +31,8 @@ public class EmailServiceImpl implements EmailService {
             mailMessage.setSubject(details.getSubject());
 
             javaMailSender.send(mailMessage);
-            return "Mail Sent Successfully... "+ details.getSubject();
-        }
-
-        catch (Exception e) {
+            return "Mail Sent Successfully... " + details.getSubject();
+        } catch (Exception e) {
             e.printStackTrace();
             return e.getLocalizedMessage();
         }

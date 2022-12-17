@@ -72,13 +72,13 @@ public class FetchController {
     List<Product> comparePrice(@PathVariable("keyword") String keyword) {
         System.out.println(keyword);
         ExecutorService executor = Executors.newCachedThreadPool();
-        return amazonScraper.getAmazonProductDetail(encoder(keyword)).parallelStream().peek(p ->{
+        return amazonScraper.getAmazonProductDetail(encoder(keyword)).parallelStream().peek(p -> {
             String modelID = encoder(p.getModelID().strip());
             Map<Ecom, EcomData> g = p.getPriceList();
             g.put(Ecom.WALMART, walmartScraper.getProductDetail(modelID));
             g.put(Ecom.BESTBUY, bestBuyScraper.getProductDetail(modelID));
             p.setPriceList(g);
-        }).peek( p -> executor.execute(() -> productService.updateProduct(p))).collect(Collectors.toList());
+        }).peek(p -> executor.execute(() -> productService.updateProduct(p))).collect(Collectors.toList());
     }
 
 }

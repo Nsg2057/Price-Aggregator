@@ -39,11 +39,11 @@ public class HTMLDownloader {
         return stringBuilder.toString();
     }
 
-    public Document getHTMLfromJSP(String URL){
+    public Document getHTMLfromJSP(String URL) {
         try {
-           return Jsoup.connect(URL).get();
+            return Jsoup.connect(URL).get();
         } catch (IOException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
         return Document.createShell("");
     }

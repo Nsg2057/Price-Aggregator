@@ -16,9 +16,10 @@ public class PriceMonitorController {
     MonitorService monitorService;
     @Autowired
     SequenceGeneratorService sequenceGeneratorService;
+
     @PostMapping
     public String addMonitor(@RequestBody Monitor pm) {
-pm.setId(sequenceGeneratorService.generateSequence(Monitor.SEQUENCE_NAME));
+        pm.setId(sequenceGeneratorService.generateSequence(Monitor.SEQUENCE_NAME));
         return monitorService.saveMonitor(pm);
     }
 
@@ -26,7 +27,7 @@ pm.setId(sequenceGeneratorService.generateSequence(Monitor.SEQUENCE_NAME));
 
     public Optional<Monitor> getProduct(@PathVariable Long id) {
 
-        return  monitorService.getMonitorById(id);
+        return monitorService.getMonitorById(id);
     }
 
     @GetMapping
