@@ -43,7 +43,7 @@ public class Product {
     }
 
     public void setImgURL(String imgURL) {
-        this.imgURL = imgURL;
+        this.imgURL = imgURL.replaceAll("._AC_UY218_","");
     }
 
 
