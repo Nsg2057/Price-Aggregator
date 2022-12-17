@@ -7,10 +7,7 @@ import edu.nyu.nsg2057.webscraper.model.EmailDetails;
 import edu.nyu.nsg2057.webscraper.model.Product;
 import edu.nyu.nsg2057.webscraper.service.db.MonitorService;
 import edu.nyu.nsg2057.webscraper.service.db.ProductService;
-import edu.nyu.nsg2057.webscraper.service.scraper.AmazonScraper;
-import edu.nyu.nsg2057.webscraper.service.scraper.BestBuyScraper;
-import edu.nyu.nsg2057.webscraper.service.scraper.Scraper;
-import edu.nyu.nsg2057.webscraper.service.scraper.WalmartScraper;
+import edu.nyu.nsg2057.webscraper.service.scraper.*;
 import edu.nyu.nsg2057.webscraper.service.smtp.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -93,6 +90,8 @@ public class ProductPriceJob {
                 return new BestBuyScraper();
             case WALMART:
                 return new WalmartScraper();
+            case COSTCO:
+                return new CostcoScraper();
             default:
                 return null;
         }
@@ -100,6 +99,7 @@ public class ProductPriceJob {
     }
 
     String getHomePage(Ecom ecom) {
+
         switch (ecom) {
             case AMAZON:
                 return URLconstant.AMAZON;
@@ -107,6 +107,8 @@ public class ProductPriceJob {
                 return URLconstant.BESTBUY;
             case WALMART:
                 return URLconstant.WALMART;
+            case COSTCO:
+                return URLconstant.COSTCO;
             default:
                 return null;
         }

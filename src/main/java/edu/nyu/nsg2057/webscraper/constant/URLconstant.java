@@ -10,4 +10,6 @@ public class URLconstant {
     public static final String TARGET_SEARCH = TARGET + "/s?searchTerm=";
     public static final String BESTBUY = "https://www.bestbuy.com";
     public static final String BESTBUY_SEARCH = BESTBUY + "/site/searchpage.jsp?st=";
+    public static final String COSTCO = "https://www.costco.com";
+    public static final String COSTCO_SEARCH = COSTCO + "/CatalogSearch?dept=All&keyword=";
 }

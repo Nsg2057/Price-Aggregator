@@ -5,10 +5,7 @@ import edu.nyu.nsg2057.webscraper.constant.Ecom;
 import edu.nyu.nsg2057.webscraper.model.EcomData;
 import edu.nyu.nsg2057.webscraper.model.Product;
 import edu.nyu.nsg2057.webscraper.service.db.ProductService;
-import edu.nyu.nsg2057.webscraper.service.scraper.AmazonScraper;
-import edu.nyu.nsg2057.webscraper.service.scraper.BestBuyScraper;
-import edu.nyu.nsg2057.webscraper.service.scraper.TargetScraper;
-import edu.nyu.nsg2057.webscraper.service.scraper.WalmartScraper;
+import edu.nyu.nsg2057.webscraper.service.scraper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +34,8 @@ public class FetchController {
     TargetScraper targetScraper;
     @Autowired
     BestBuyScraper bestBuyScraper;
+    @Autowired
+    CostcoScraper costcoScraper;
 
     @Autowired
     ProductService productService;
@@ -45,7 +44,7 @@ public class FetchController {
     List<Product> amazonScrapper(@PathVariable Optional<String> keyword) {
         String product = "XR65A80K";
         if (keyword.isPresent()) product = keyword.get();
-        return amazonScraper.getAmazonProductDetail(product);
+        return amazonScraper.getAmazonProductDetail(encoder(product));
     }
 
     @GetMapping(value = {"/walmart", "/walmart/{keyword}"})
@@ -68,6 +67,12 @@ public class FetchController {
         return targetScraper.getTargetProductDetail(product);
     }
 
+    @GetMapping(path = "/costco")
+    EcomData costcoScrapper() {
+        String product = "XR65A80K";
+        return costcoScraper.getProductDetail(product);
+    }
+
     @GetMapping(path = "/comparePrice/{keyword}")
     List<Product> comparePrice(@PathVariable("keyword") String keyword) {
         System.out.println(keyword);
@@ -77,6 +82,7 @@ public class FetchController {
             Map<Ecom, EcomData> g = p.getPriceList();
             g.put(Ecom.WALMART, walmartScraper.getProductDetail(modelID));
             g.put(Ecom.BESTBUY, bestBuyScraper.getProductDetail(modelID));
+            g.put(Ecom.COSTCO,  costcoScraper.getProductDetail(modelID));
             p.setPriceList(g);
         }).peek(p -> executor.execute(() -> productService.updateProduct(p))).collect(Collectors.toList());
     }

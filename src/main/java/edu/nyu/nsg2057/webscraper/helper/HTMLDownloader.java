@@ -19,7 +19,7 @@ public class HTMLDownloader {
         try {
             URLConnection conn = new HTTPCaller().getConnection(URL);
             conn.setRequestProperty("User-Agent", URLconstant.HEADER_ORIGIN);
-            conn.setRequestProperty("Accept", "gzip, deflate, br");
+//            conn.setRequestProperty("Accept", "gzip, deflate, br");
             conn.setRequestProperty("Accept", "*/*");
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(5000);

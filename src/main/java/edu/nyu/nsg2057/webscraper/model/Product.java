@@ -58,9 +58,11 @@ public class Product {
     }
 
     public Boolean isValid(Ecom ecom) {
+        System.out.println(this.toString());
         if (Optional.ofNullable(getPriceList().get(ecom).getURL()).isPresent()) {
             return Optional.of(getPriceList().get(ecom).getURL()).get().length() < 200;
         }
+        System.out.println("============= "+ getPriceList().get(ecom).getURL());
         return false;
     }
 
@@ -68,4 +70,13 @@ public class Product {
         return Optional.ofNullable(getModelID()).isPresent();
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", imgURL='" + imgURL + '\'' +
+                ", modelID='" + modelID + '\'' +
+                ", priceList=" + priceList +
+                '}';
+    }
 }
