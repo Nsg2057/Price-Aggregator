@@ -2,6 +2,7 @@ package edu.nyu.nsg2057.webscraper.helper;
 
 import edu.nyu.nsg2057.webscraper.constant.URLconstant;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,12 +39,12 @@ public class HTMLDownloader {
         return stringBuilder.toString();
     }
 
-    public String getHTMLfromJSP(String URL){
+    public Document getHTMLfromJSP(String URL){
         try {
-           return Jsoup.connect(URL).get().html();
+           return Jsoup.connect(URL).get();
         } catch (IOException e) {
            e.printStackTrace();
         }
-        return "";
+        return Document.createShell("");
     }
 }
