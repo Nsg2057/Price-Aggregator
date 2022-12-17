@@ -1,7 +1,6 @@
 package edu.nyu.nsg2057.webscraper.controller;
 
 import edu.nyu.nsg2057.webscraper.model.Product;
-import edu.nyu.nsg2057.webscraper.repository.ProductRepository;
 import edu.nyu.nsg2057.webscraper.service.db.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +16,7 @@ public class ProductController {
 
     @PostMapping
     public String saveProduct(@RequestBody Product p) {
-
-        productService.saveProduct(p);
-        return "Added Product id " + p.getModelID();
+        return  productService.saveProduct(p);
     }
 
     @GetMapping("/{id}")

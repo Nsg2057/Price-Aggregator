@@ -1,7 +1,6 @@
 package edu.nyu.nsg2057.webscraper.controller;
 
 import edu.nyu.nsg2057.webscraper.model.Monitor;
-import edu.nyu.nsg2057.webscraper.model.Product;
 import edu.nyu.nsg2057.webscraper.service.db.MonitorService;
 import edu.nyu.nsg2057.webscraper.service.db.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,7 @@ public class PriceMonitorController {
     @PostMapping
     public String addMonitor(@RequestBody Monitor pm) {
 pm.setId(sequenceGeneratorService.generateSequence(Monitor.SEQUENCE_NAME));
-        monitorService.saveMonitor(pm);
-        return "Added Monitor id " + pm.getId();
+        return monitorService.saveMonitor(pm);
     }
 
     @GetMapping("/{id}")

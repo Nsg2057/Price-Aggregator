@@ -43,7 +43,6 @@ public class ProductPriceJob {
     public void updateProductDB() {
         EmailDetails ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Started", "Update product Job Started at "+LocalDateTime.now());
         System.out.println(emailService.sendSimpleMail(ed));
-//        System.out.println("updateProduct JOB - ");
 //        productService.getAllProducts().forEach(this::priceFetchJob);
         ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Stopped", "Update product Job Stopped at "+LocalDateTime.now());
         System.out.println(emailService.sendSimpleMail(ed));
@@ -51,7 +50,6 @@ public class ProductPriceJob {
 
 
     private void priceFetchJob(Product p) {
-        String modelID = p.getModelID().strip();
         Map<Ecom, EcomData> g = p.getPriceList();
         EcomData a = g.get(Ecom.AMAZON);
         EcomData w = g.get(Ecom.WALMART);
