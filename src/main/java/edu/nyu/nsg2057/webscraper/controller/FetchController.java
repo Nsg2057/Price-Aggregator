@@ -9,20 +9,20 @@ import edu.nyu.nsg2057.webscraper.service.scraper.AmazonScraper;
 import edu.nyu.nsg2057.webscraper.service.scraper.BestBuyScraper;
 import edu.nyu.nsg2057.webscraper.service.scraper.TargetScraper;
 import edu.nyu.nsg2057.webscraper.service.scraper.WalmartScraper;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static edu.nyu.nsg2057.webscraper.helper.StringPraser.encoder;
 
 @RestController
 @RequestMapping(path = "/api/scraper/")
@@ -71,28 +71,19 @@ public class FetchController {
     @GetMapping(path = "/comparePrice/{keyword}")
     List<Product> comparePrice(@PathVariable("keyword") String keyword) {
         System.out.println(keyword);
-        keyword = URLEncoder.encode(
-                keyword,
-                StandardCharsets.UTF_8
-        );
-        List<Product> products = amazonScraper.getAmazonProductDetail(keyword);
         List<Product> output = new ArrayList<>();
-        for (Product p :
-                products) {
-            String modelID = p.getModelID().strip();
-            modelID = URLEncoder.encode(
-                    modelID,
-                    StandardCharsets.UTF_8
-            );
-            EcomData w = walmartScraper.getProductDetail(modelID);
-            EcomData b = bestBuyScraper.getProductDetail(modelID);
+        ExecutorService executor = Executors.newCachedThreadPool();
+        amazonScraper.getAmazonProductDetail(encoder(keyword)).parallelStream().peek(p ->{
+            String modelID = encoder(p.getModelID().strip());
             Map<Ecom, EcomData> g = p.getPriceList();
-            g.put(Ecom.WALMART, w);
-            g.put(Ecom.BESTBUY, b);
+            g.put(Ecom.WALMART, walmartScraper.getProductDetail(modelID));
+            g.put(Ecom.BESTBUY, bestBuyScraper.getProductDetail(modelID));
             p.setPriceList(g);
             output.add(p);
-            productService.updateProduct(p);
-        }
+        }).forEach( p -> executor.submit(() -> productService.updateProduct(p)));
+        executor.shutdown();
+        System.out.println("returned");
         return output;
     }
+
 }

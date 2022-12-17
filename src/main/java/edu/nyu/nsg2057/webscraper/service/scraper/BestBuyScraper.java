@@ -17,7 +17,7 @@ public class BestBuyScraper implements Scraper{
     public EcomData getProductDetail(String keyword) {
         System.out.println("BestBuyScraper");
         EcomData ecomData = new EcomData();
-        Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.BESTBUY_SEARCH + keyword));
+        Document doc = Jsoup.parse(new HTMLDownloader().getHTMLfromJSP(URLconstant.BESTBUY_SEARCH + keyword));
         Optional<Element> element = doc.getElementsByClass("list-item lv").stream().filter(a -> !a.text().contains("Sponsored")).findFirst();
         if (element.isPresent()) {
             ecomData.setPrice(element.get().text().substring(element.get().text().indexOf("$"), element.get().text().indexOf(".", element.get().text().indexOf("$")) + 3));
@@ -27,7 +27,7 @@ public class BestBuyScraper implements Scraper{
         return ecomData;
     }
     public Double getPriceChange(String endpoint) {
-        Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.BESTBUY + endpoint));
+        Document doc = Jsoup.parse(new HTMLDownloader().getHTMLfromJSP(URLconstant.BESTBUY + endpoint));
         Optional<Element> e = Optional.ofNullable(doc.getElementsByAttributeValueStarting("class","price-box").first());
         return e.map(element -> new StringPraser(element.text()).getPrice()).orElse(null);
     }

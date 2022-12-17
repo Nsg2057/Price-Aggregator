@@ -16,7 +16,6 @@ public class HTMLDownloader {
     public String getHTML(String URL) {
         StringBuilder stringBuilder = new StringBuilder();
         try {
-            if (URL.contains(URLconstant.TARGET)) throw new NullPointerException();
             URLConnection conn = new HTTPCaller().getConnection(URL);
             conn.setRequestProperty("User-Agent", URLconstant.HEADER_ORIGIN);
             conn.setRequestProperty("Accept", "gzip, deflate, br");
@@ -25,11 +24,7 @@ public class HTMLDownloader {
             conn.setReadTimeout(5000);
             conn.connect();
             InputStream inStream;
-            try {
-                inStream = conn.getInputStream();
-            } catch (Exception e) {
-                throw new NullPointerException();
-            }
+            inStream = conn.getInputStream();
             Optional<String> encoding = Optional.ofNullable(conn.getContentEncoding());
             if (encoding.isPresent())
                 if (encoding.get().toLowerCase().contains("zip")) inStream = new GZIPInputStream(inStream);
@@ -39,14 +34,16 @@ public class HTMLDownloader {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (NullPointerException e) {
-            try {
-
-                stringBuilder.append(Jsoup.connect(URL).get().html());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
         }
         return stringBuilder.toString();
+    }
+
+    public String getHTMLfromJSP(String URL){
+        try {
+           return Jsoup.connect(URL).get().html();
+        } catch (IOException e) {
+           e.printStackTrace();
+        }
+        return "";
     }
 }

@@ -1,5 +1,8 @@
 package edu.nyu.nsg2057.webscraper.helper;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 public class StringPraser {
     private Double price;
 
@@ -24,5 +27,11 @@ public class StringPraser {
 
     public Double getPrice() {
         return price;
+    }
+    public static String encoder(String text){
+        return URLEncoder.encode(
+                text,
+                StandardCharsets.UTF_8
+        );
     }
 }

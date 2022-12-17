@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @EnableAsync
@@ -40,10 +41,12 @@ public class ProductPriceJob {
     @Async
     @Scheduled(fixedRate = 360000)
     public void updateProductDB() {
-        EmailDetails ed = new EmailDetails("venkatesha2017@gmail.com", "test", "test");
+        EmailDetails ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Started", "Update product Job Started at "+LocalDateTime.now());
         System.out.println(emailService.sendSimpleMail(ed));
-        System.out.println("updateProduct JOB - ");
-        productService.getAllProducts().forEach(this::priceFetchJob);
+//        System.out.println("updateProduct JOB - ");
+//        productService.getAllProducts().forEach(this::priceFetchJob);
+        ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Stopped", "Update product Job Stopped at "+LocalDateTime.now());
+        System.out.println(emailService.sendSimpleMail(ed));
     }
 
 
@@ -65,7 +68,7 @@ public class ProductPriceJob {
 
 
     @Async
-    @Scheduled(fixedRate = 360000)
+    @Scheduled(fixedRate = 3600000)
     public void checkPriceChange(){
 
         System.out.println("PriceChange JOB - " + System.currentTimeMillis() / 1000);
