@@ -39,25 +39,22 @@ public class CostcoScraper implements Scraper {
         JsonNode response = null;
         try {
             String s = HTTPCaller.restGetCall(URLconstant.COSTOCO_PRICE+prodID);
-            System.out.println(URLconstant.COSTOCO_PRICE+prodID);
-            System.out.println(s);
                 response = new ObjectMapper().readTree(s);
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
         }
         Double finalOnlinePrice = (double) 0;
         Double discount = (double) 0;
         try {
             finalOnlinePrice = response.get("finalOnlinePrice").asDouble();
             discount = response.get("discount").asDouble();
-            System.out.println(finalOnlinePrice);
-            System.out.println(discount);
         } catch (Exception e) {
-//            throw new RuntimeException(e);
             e.printStackTrace();
         }
         return finalOnlinePrice - discount;

@@ -24,7 +24,7 @@ public class ProductService {
 
     public void updateProduct(Product product) {
         productRepository.save(product);
-        System.out.println("Product Updated");
+        System.out.println("Product Updated " + product.getModelID());
     }
 
     public String saveProduct(Product p) {

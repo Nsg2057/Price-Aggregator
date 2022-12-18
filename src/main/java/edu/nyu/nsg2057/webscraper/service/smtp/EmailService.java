@@ -33,10 +33,8 @@ public class EmailService {
         } catch (Exception e) {
             e.printStackTrace();
             sendSecondaryEmail(ed);
-        } finally {
             return false;
         }
-
 
     }
 
@@ -49,7 +47,6 @@ public class EmailService {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
             return false;
         }
 

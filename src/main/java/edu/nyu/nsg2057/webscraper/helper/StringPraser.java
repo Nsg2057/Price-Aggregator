@@ -28,7 +28,6 @@ public class StringPraser {
     public Double getDoublePrice(String line) {
         line = line.replaceAll("\\$", "");
         line = line.replaceAll(",", "");
-        System.out.println(line);
         return Double.valueOf(line);
     }
 

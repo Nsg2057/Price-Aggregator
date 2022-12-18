@@ -75,7 +75,7 @@ public class FetchController {
 
     @GetMapping(path = "/comparePrice/{keyword}")
     List<Product> comparePrice(@PathVariable("keyword") String keyword) {
-        System.out.println(keyword);
+        System.out.println("Comparing Price for " + keyword);
         ExecutorService executor = Executors.newCachedThreadPool();
         return amazonScraper.getAmazonProductDetail(encoder(keyword)).parallelStream().peek(p -> {
             String modelID = encoder(p.getModelID().strip());

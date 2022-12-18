@@ -35,6 +35,8 @@ public class HTMLDownloader {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
         return stringBuilder.toString();
     }

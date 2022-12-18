@@ -24,7 +24,7 @@ public class MonitorService {
 
     public void updateMonitor(Monitor monitor) {
         monitorRepository.save(monitor);
-        System.out.println("Monitor Updated");
+        System.out.println("Monitor Updated " + monitor.getId());
     }
 
     public String saveMonitor(Monitor monitor) {

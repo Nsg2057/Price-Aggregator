@@ -31,6 +31,7 @@ public class WalmartScraper implements Scraper {
 
     public Double getPriceChange(String endpoint) {
         Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.WALMART + endpoint));
+        if (doc.text().contains("Robot or human"))System.out.println("Robot detected by Walmart");
         Optional<Element> e = Optional.ofNullable(doc.getElementsByAttributeValue("itemprop", "price").first());
         return e.map(element -> new StringPraser(element.text()).getPrice()).orElse(null);
     }

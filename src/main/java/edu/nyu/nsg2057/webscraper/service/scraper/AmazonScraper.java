@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 public class AmazonScraper implements Scraper {
 
     public List<Product> getAmazonProductDetail(String keyword) {
-        System.out.println("AmazonScraper");
         return getAmazonProductList(keyword).parallelStream().map(this::getModelIDAmazon).filter(Product::isValidModel).collect(Collectors.toList());
     }
 

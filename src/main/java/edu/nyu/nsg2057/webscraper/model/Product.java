@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Document("PRODUCT")
@@ -58,11 +59,9 @@ public class Product {
     }
 
     public Boolean isValid(Ecom ecom) {
-        System.out.println(this.toString());
         if (Optional.ofNullable(getPriceList().get(ecom).getURL()).isPresent()) {
             return Optional.of(getPriceList().get(ecom).getURL()).get().length() < 200;
         }
-        System.out.println("============= "+ getPriceList().get(ecom).getURL());
         return false;
     }
 
@@ -82,5 +81,18 @@ public class Product {
                 ", modelID='" + modelID + '\'' +
                 ", priceList=" + priceList +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return Objects.equals(getName(), product.getName()) && Objects.equals(getImgURL(), product.getImgURL()) && Objects.equals(getModelID(), product.getModelID()) && Objects.equals(getPriceList(), product.getPriceList());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getImgURL(), getModelID(), getPriceList());
     }
 }

@@ -16,7 +16,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @EnableAsync
 @Component
@@ -39,7 +42,13 @@ public class ProductPriceJob {
     public void updateProductDB() {
         EmailDetails ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Started", "Update product Job Started at " + LocalDateTime.now());
         System.out.println(emailService.sendPrimaryEmail(ed));
-//        productService.getAllProducts().forEach(this::priceFetchJob);
+        Executor executor = Executors.newCachedThreadPool();
+        productService.getAllProducts().parallelStream().forEach(
+                p ->{
+                    executor.execute(() -> {
+                priceFetchJob(p);
+                    });
+                });
         ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Stopped", "Update product Job Stopped at " + LocalDateTime.now());
         System.out.println(emailService.sendPrimaryEmail(ed));
     }
@@ -50,29 +59,32 @@ public class ProductPriceJob {
         EcomData a = g.get(Ecom.AMAZON);
         EcomData w = g.get(Ecom.WALMART);
         EcomData b = g.get(Ecom.BESTBUY);
+        Map<Ecom, EcomData> n = new HashMap<>();
         if (a.getURL() != null) a.setPrice(amazonScraper.getPriceChange(a.getURL()));
         if (w.getURL() != null) w.setPrice(walmartScraper.getPriceChange(w.getURL()));
         if (b.getURL() != null) b.setPrice(bestBuyScraper.getPriceChange(b.getURL()));
-        g.put(Ecom.WALMART, w);
-        g.put(Ecom.BESTBUY, b);
-        g.put(Ecom.AMAZON, a);
-        p.setPriceList(g);
+        n.put(Ecom.WALMART, w);
+        n.put(Ecom.BESTBUY, b);
+        n.put(Ecom.AMAZON, a);
+        if (!n.equals(g)){
+
+        p.setPriceList(n);
         productService.updateProduct(p);
+        }
     }
 
 
     @Async
     @Scheduled(fixedRate = 3600000)
     public void checkPriceChange() {
-
-        System.out.println("PriceChange JOB - " + System.currentTimeMillis() / 1000);
         monitorService.getAllMonitors().forEach(a -> {
             Scraper s = createObject(a.getEcom());
             Double p = s.getPriceChange(a.getURL());
             if (!p.equals(a.getPrice())) {
+                String status = p>a.getPrice()? "Increased":"Reduced";
                 String sb = "Product = " + a.getName() + "\n" + "in " + a.getEcom() + "\n" + "Price changed from " + a.getPrice() + " to " + p + "\n" + "\n" + getHomePage(a.getEcom()) + a.getURL() + "\n" + a;
-                EmailDetails ed = new EmailDetails(a.getEmailID(), sb, "Price Changed " + a.getModelID());
-                System.out.println(emailService.sendPrimaryEmail(ed));
+                EmailDetails ed = new EmailDetails(a.getEmailID(), sb, "Price "+status +" for " + a.getModelID());
+                System.out.println("PRICE CHANGE EMAIL SENT = "+emailService.sendPrimaryEmail(ed) +" FOR "+ a.getId() );
                 a.setPrice(p);
                 monitorService.updateMonitor(a);
             }
