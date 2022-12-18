@@ -34,15 +34,14 @@ public class ProductPriceJob {
     @Autowired
     MonitorService monitorService;
 
-
     @Async
-    @Scheduled(fixedRate = 360000)
+    @Scheduled(fixedRate = 3600000)
     public void updateProductDB() {
         EmailDetails ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Started", "Update product Job Started at " + LocalDateTime.now());
-        System.out.println(emailService.sendSimpleMail(ed));
+        System.out.println(emailService.sendPrimaryEmail(ed));
 //        productService.getAllProducts().forEach(this::priceFetchJob);
         ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Stopped", "Update product Job Stopped at " + LocalDateTime.now());
-        System.out.println(emailService.sendSimpleMail(ed));
+        System.out.println(emailService.sendPrimaryEmail(ed));
     }
 
 
@@ -73,7 +72,7 @@ public class ProductPriceJob {
             if (!p.equals(a.getPrice())) {
                 String sb = "Product = " + a.getName() + "\n" + "in " + a.getEcom() + "\n" + "Price changed from " + a.getPrice() + " to " + p + "\n" + "\n" + getHomePage(a.getEcom()) + a.getURL() + "\n" + a;
                 EmailDetails ed = new EmailDetails(a.getEmailID(), sb, "Price Changed " + a.getModelID());
-                System.out.println(emailService.sendSimpleMail(ed));
+                System.out.println(emailService.sendPrimaryEmail(ed));
                 a.setPrice(p);
                 monitorService.updateMonitor(a);
             }

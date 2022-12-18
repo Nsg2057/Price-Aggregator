@@ -1,9 +1,11 @@
 package edu.nyu.nsg2057.webscraper.model;
 
+import javax.validation.constraints.Email;
 import java.util.Objects;
 
 public class EmailDetails {
 
+    @Email
     private String recipient;
     private String msgBody;
     private String subject;
