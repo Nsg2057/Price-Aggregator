@@ -36,7 +36,7 @@ public class AmazonScraper implements Scraper {
         Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.AMAZON_LIST + keyword));
         Elements elements = doc.getElementsByAttribute("data-index");
         List<Product> productList = new ArrayList<>();
-        elements.parallelStream().forEach(element -> {
+        elements.stream().limit(10).parallel().forEach(element -> {
             Product product = new Product();
             EcomData ecomData = new EcomData();
             product.setName(element.getElementsByTag("h2").text());

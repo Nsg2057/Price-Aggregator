@@ -67,7 +67,11 @@ public class Product {
     }
 
     public Boolean isValidModel() {
-        return Optional.ofNullable(getModelID()).isPresent();
+        if (Optional.ofNullable(getModelID()).isPresent()){
+            if (getModelID().startsWith("-")) return false;
+            return true;
+        }
+        return false ;
     }
 
     @Override
