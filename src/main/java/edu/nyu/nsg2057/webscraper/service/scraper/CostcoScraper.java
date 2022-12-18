@@ -1,8 +1,12 @@
 package edu.nyu.nsg2057.webscraper.service.scraper;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.nyu.nsg2057.webscraper.constant.URLconstant;
 import edu.nyu.nsg2057.webscraper.helper.HTMLDownloader;
+import edu.nyu.nsg2057.webscraper.helper.HTTPCaller;
 import edu.nyu.nsg2057.webscraper.helper.StringPraser;
 import edu.nyu.nsg2057.webscraper.model.EcomData;
 import org.jsoup.Jsoup;
@@ -10,6 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -28,9 +33,34 @@ public class CostcoScraper implements Scraper {
     }
 
     public Double getPriceChange(String endpoint) {
-        Document doc = Jsoup.parse(new HTMLDownloader().getHTML(URLconstant.WALMART + endpoint));
-        Optional<Element> e = Optional.ofNullable(doc.getElementById("pull-right-price"));
-        return e.map(element -> new StringPraser(element.text()).getPrice()).orElse(null);
+      HTMLDownloader htmlDownloader=  new HTMLDownloader();
+        String prodID = htmlDownloader.getHTMLfromJSP(URLconstant.COSTCO + endpoint)
+                .select("input[name=productBeanId]").first().attr("value");
+        JsonNode response = null;
+        try {
+            String s = HTTPCaller.restGetCall(URLconstant.COSTOCO_PRICE+prodID);
+            System.out.println(URLconstant.COSTOCO_PRICE+prodID);
+            System.out.println(s);
+                response = new ObjectMapper().readTree(s);
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Double finalOnlinePrice = (double) 0;
+        Double discount = (double) 0;
+        try {
+            finalOnlinePrice = response.get("finalOnlinePrice").asDouble();
+            discount = response.get("discount").asDouble();
+            System.out.println(finalOnlinePrice);
+            System.out.println(discount);
+        } catch (Exception e) {
+//            throw new RuntimeException(e);
+            e.printStackTrace();
+        }
+        return finalOnlinePrice - discount;
     }
 
 }
