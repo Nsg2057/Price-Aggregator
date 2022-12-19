@@ -84,14 +84,18 @@ public class FetchController {
             EcomData w = new EcomData();
             EcomData b = new EcomData();
             EcomData c = new EcomData();
-            g.put(Ecom.WALMART, w);g.put(Ecom.BESTBUY, b);g.put(Ecom.COSTCO,  c);
-            w = walmartScraper.getProductDetail(modelID);b = bestBuyScraper.getProductDetail(modelID);c = costcoScraper.getProductDetail(modelID);
+            g.put(Ecom.WALMART, w);
+            g.put(Ecom.BESTBUY, b);
+            g.put(Ecom.COSTCO, c);
+            w = walmartScraper.getProductDetail(modelID);
+            b = bestBuyScraper.getProductDetail(modelID);
+            c = costcoScraper.getProductDetail(modelID);
 
             if (StringPraser.getMatchPercentage(p.getName(), w.getName()) > 4.00) g.put(Ecom.WALMART, w);
 
-            if (StringPraser.getMatchPercentage(p.getName(), b.getName()) > 4.00)  g.put(Ecom.BESTBUY, b);
+            if (StringPraser.getMatchPercentage(p.getName(), b.getName()) > 4.00) g.put(Ecom.BESTBUY, b);
 
-            if (StringPraser.getMatchPercentage(p.getName(), c.getName()) > 4.00) g.put(Ecom.COSTCO,  c);
+            if (StringPraser.getMatchPercentage(p.getName(), c.getName()) > 4.00) g.put(Ecom.COSTCO, c);
 
 
             p.setPriceList(g);

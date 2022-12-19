@@ -11,7 +11,7 @@ import javax.validation.ValidationException;
 public class ExceptionController {
     @ExceptionHandler(value = ValidationException.class)
     public ResponseEntity<Object> validationException(Exception exception) {
-        return new ResponseEntity<>("Invalid request " + exception.getLocalizedMessage() , HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Invalid request " + exception.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
     }
 //    @ExceptionHandler(value = Exception.class)
 //    public ResponseEntity<Object> exception(Exception exception) {

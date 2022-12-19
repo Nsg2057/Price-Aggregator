@@ -4,7 +4,6 @@ package edu.nyu.nsg2057.webscraper.service.smtp;
 import edu.nyu.nsg2057.webscraper.model.EmailDetails;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -15,20 +14,20 @@ public class EmailService {
     private String secSender;
     @Value("${spring.mail.primary.username}")
     private String priSender;
-    private JavaMailSender primarySender;
-    private JavaMailSender secondarySender;
+    private final JavaMailSender primarySender;
+    private final JavaMailSender secondarySender;
 
-    public EmailService (
+    public EmailService(
             @Qualifier("primarySender") JavaMailSender primarySender,
             @Qualifier("secondarySender") JavaMailSender secondarySender) {
         this.primarySender = primarySender;
         this.secondarySender = secondarySender;
     }
 
-    public boolean sendPrimaryEmail(EmailDetails ed){
+    public boolean sendPrimaryEmail(EmailDetails ed) {
 
         try {
-            primarySender.send(getSimpleMailMessage(ed,priSender));
+            primarySender.send(getSimpleMailMessage(ed, priSender));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,11 +38,10 @@ public class EmailService {
     }
 
 
-    public boolean sendSecondaryEmail(EmailDetails ed)
-    {
+    public boolean sendSecondaryEmail(EmailDetails ed) {
 
         try {
-            secondarySender.send(getSimpleMailMessage(ed,secSender));
+            secondarySender.send(getSimpleMailMessage(ed, secSender));
             return true;
         } catch (Exception e) {
             e.printStackTrace();

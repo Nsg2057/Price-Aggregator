@@ -4,22 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 
 
 public class HTTPCaller {
-    public URLConnection getConnection(String url) {
-        URL myURL;
-        URLConnection myURLConnection;
-        try {
-            myURL = new URL(url.toLowerCase().startsWith("http") ? url : "https://" + url);
-            myURLConnection = myURL.openConnection();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return myURLConnection;
-    }
-
     public static String restGetCall(String uri) throws IOException {
         URL url = new URL(uri);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -38,7 +28,19 @@ public class HTTPCaller {
             }
             reader.close();
         }
-        return  sb.toString();
+        return sb.toString();
+    }
+
+    public URLConnection getConnection(String url) {
+        URL myURL;
+        URLConnection myURLConnection;
+        try {
+            myURL = new URL(url.toLowerCase().startsWith("http") ? url : "https://" + url);
+            myURLConnection = myURL.openConnection();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return myURLConnection;
     }
 
 

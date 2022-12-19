@@ -22,7 +22,7 @@ public class WalmartScraper implements Scraper {
         if (element.isPresent()) {
 
             ecomData.setPrice(new StringPraser(element.get().text()).getPrice());
-            ecomData.setName( element.get().getElementsByAttributeValue("data-automation-id","product-title").text());
+            ecomData.setName(element.get().getElementsByAttributeValue("data-automation-id", "product-title").text());
             String html = element.get().html();
             String id = html.substring(html.indexOf("data-testid=\"variant-") + 21, html.indexOf("\"", html.indexOf("data-testid=\"variant-") + 21));
             ecomData.setURL(doc.getElementsByAttributeValue("data-item-id", id).first().getElementsByTag("a").attr("href"));

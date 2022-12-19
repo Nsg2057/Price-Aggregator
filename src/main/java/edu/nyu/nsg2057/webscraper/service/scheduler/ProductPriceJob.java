@@ -15,7 +15,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
@@ -44,7 +43,7 @@ public class ProductPriceJob {
     public void updateProductDB() {
         Executor executor = Executors.newCachedThreadPool();
         productService.getAllProducts().parallelStream().forEach(
-                p ->{
+                p -> {
                     executor.execute(() -> {
                         try {
                             priceFetchJob(p);
@@ -73,11 +72,11 @@ public class ProductPriceJob {
             n.put(Ecom.AMAZON, a);
             n.put(Ecom.COSTCO, c);
 
-            if (!n.equals(g)){
+            if (!n.equals(g)) {
 
-            p.setPriceList(n);
+                p.setPriceList(n);
                 System.out.println(p);
-            productService.updateProduct(p);
+                productService.updateProduct(p);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,10 +91,10 @@ public class ProductPriceJob {
             Scraper s = createObject(a.getEcom());
             Double p = s.getPriceChange(a.getURL());
             if (!p.equals(a.getPrice())) {
-                String status = p>a.getPrice()? "Increased":"Reduced";
+                String status = p > a.getPrice() ? "Increased" : "Reduced";
                 String sb = "Product = " + a.getName() + "\n" + "in " + a.getEcom() + "\n" + "Price changed from " + a.getPrice() + " to " + p + "\n" + "\n" + getHomePage(a.getEcom()) + a.getURL() + "\n" + a;
-                EmailDetails ed = new EmailDetails(a.getEmailID(), sb, "Price "+status +" for " + a.getModelID());
-                System.out.println("PRICE CHANGE EMAIL SENT = "+emailService.sendPrimaryEmail(ed) +" FOR "+ a.getId() );
+                EmailDetails ed = new EmailDetails(a.getEmailID(), sb, "Price " + status + " for " + a.getModelID());
+                System.out.println("PRICE CHANGE EMAIL SENT = " + emailService.sendPrimaryEmail(ed) + " FOR " + a.getId());
                 a.setPrice(p);
                 monitorService.updateMonitor(a);
             }

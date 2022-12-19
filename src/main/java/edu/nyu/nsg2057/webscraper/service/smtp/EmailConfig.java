@@ -30,7 +30,7 @@ public class EmailConfig {
     @ConfigurationProperties(prefix = MAIL_SENDER_PRIMARY_KEY)
     public JavaMailSender primarySender() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        return javaMailSenderWithProperties(javaMailSender,MAIL_SENDER_PRIMARY_PROPERTIES_KEY);
+        return javaMailSenderWithProperties(javaMailSender, MAIL_SENDER_PRIMARY_PROPERTIES_KEY);
     }
 
     @Bean
@@ -38,7 +38,7 @@ public class EmailConfig {
     public JavaMailSender secondarySender() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 
-        return javaMailSenderWithProperties(javaMailSender,MAIL_SENDER_SECONDARY_PROPERTIES_KEY);
+        return javaMailSenderWithProperties(javaMailSender, MAIL_SENDER_SECONDARY_PROPERTIES_KEY);
     }
 
     private JavaMailSender javaMailSenderWithProperties(JavaMailSenderImpl javaMailSender, String prefix) {

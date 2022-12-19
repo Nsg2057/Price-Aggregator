@@ -22,23 +22,10 @@ public class StringPraser {
         );
     }
 
-    public String retrivePrice(String line) {
-        return line.substring(line.indexOf("$"), line.indexOf(".", line.indexOf("$")) + 3);
-    }
-
-    public Double getDoublePrice(String line) {
-        line = line.replaceAll("\\$", "");
-        line = line.replaceAll(",", "");
-        return Double.valueOf(line);
-    }
-
-    public Double getPrice() {
-        return price;
-    }
     public static double getMatchPercentage(String str1, String str2) {
         // Create a hash map of the words in str1
-        if (str2==null) return 0.00;
-        System.out.println(str1 + " === "+str2);
+        if (str2 == null) return 0.00;
+        System.out.println(str1 + " === " + str2);
         HashMap<String, Integer> map = new HashMap<>();
         for (String word : str1.split("\\s+")) {
             map.put(word, map.getOrDefault(word, 0) + 1);
@@ -61,5 +48,19 @@ public class StringPraser {
         double matchPercentage = (double) matchCount / totalWords * 100;
         System.out.println(matchPercentage);
         return matchPercentage;
+    }
+
+    public String retrivePrice(String line) {
+        return line.substring(line.indexOf("$"), line.indexOf(".", line.indexOf("$")) + 3);
+    }
+
+    public Double getDoublePrice(String line) {
+        line = line.replaceAll("\\$", "");
+        line = line.replaceAll(",", "");
+        return Double.valueOf(line);
+    }
+
+    public Double getPrice() {
+        return price;
     }
 }
