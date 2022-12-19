@@ -46,7 +46,11 @@ public class ProductPriceJob {
         productService.getAllProducts().parallelStream().forEach(
                 p ->{
                     executor.execute(() -> {
-                priceFetchJob(p);
+                        try {
+                            priceFetchJob(p);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     });
                 });
         ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Stopped", "Update product Job Stopped at " + LocalDateTime.now());

@@ -8,6 +8,7 @@ public class EcomData {
 
     private String URL;
     private Double Price;
+    private String Name;
 
     public String getURL() {
         return URL;
@@ -29,12 +30,12 @@ public class EcomData {
         Price = price;
     }
 
-    @Override
-    public String toString() {
-        return "EcomData{" +
-                "URL='" + URL + '\'' +
-                ", Price='" + Price + '\'' +
-                '}';
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
     }
 
     @Override
@@ -42,11 +43,21 @@ public class EcomData {
         if (this == o) return true;
         if (!(o instanceof EcomData)) return false;
         EcomData ecomData = (EcomData) o;
-        return Objects.equals(getURL(), ecomData.getURL()) && Objects.equals(getPrice(), ecomData.getPrice());
+        return Objects.equals(getURL(), ecomData.getURL()) && Objects.equals(getPrice(), ecomData.getPrice()) && Objects.equals(getName(), ecomData.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getURL(), getPrice());
+        return Objects.hash(getURL(), getPrice(), getName());
     }
+
+    @Override
+    public String toString() {
+        return "EcomData{" +
+                "URL='" + URL + '\'' +
+                ", Price=" + Price +
+                ", Name='" + Name + '\'' +
+                '}';
+    }
+
 }

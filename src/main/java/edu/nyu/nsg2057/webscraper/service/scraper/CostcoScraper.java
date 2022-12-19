@@ -26,6 +26,7 @@ public class CostcoScraper implements Scraper {
         Optional<Element> element = doc.getElementsByClass("product-tile-set").stream().limit(5).filter(a -> !a.text().contains("Sponsored")).findFirst();
 
         if (element.isPresent()) {
+            ecomData.setName(element.get().getElementsByClass("description").text());
             ecomData.setPrice(new StringPraser(element.get().text()).getPrice());
             ecomData.setURL(element.get().getElementsByClass("description").first().getElementsByTag("a").attr("href").replaceAll("https://www.costco.com",""));
         }

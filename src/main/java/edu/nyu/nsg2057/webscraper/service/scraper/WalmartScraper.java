@@ -20,7 +20,9 @@ public class WalmartScraper implements Scraper {
         Optional<Element> element = doc.getElementsByAttributeValue("data-testid", "list-view").stream().limit(10).filter(a -> !a.text().contains("Sponsored")).findFirst();
 
         if (element.isPresent()) {
+
             ecomData.setPrice(new StringPraser(element.get().text()).getPrice());
+            ecomData.setName( element.get().getElementsByAttributeValue("data-automation-id","product-title").text());
             String html = element.get().html();
             String id = html.substring(html.indexOf("data-testid=\"variant-") + 21, html.indexOf("\"", html.indexOf("data-testid=\"variant-") + 21));
             ecomData.setURL(doc.getElementsByAttributeValue("data-item-id", id).first().getElementsByTag("a").attr("href"));

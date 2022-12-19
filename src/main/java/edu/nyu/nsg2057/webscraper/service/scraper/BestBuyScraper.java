@@ -19,6 +19,7 @@ public class BestBuyScraper implements Scraper {
         Optional<Element> element = doc.getElementsByClass("list-item lv").stream().limit(10).filter(a -> !a.text().contains("Sponsored")).findFirst();
         if (element.isPresent()) {
             String text = element.get().text();
+            ecomData.setName(element.get().getElementsByTag("h4").text());
             ecomData.setPrice(text.substring(text.indexOf("$"), text.indexOf(".", text.indexOf("$")) + 3));
             ecomData.setURL(element.get().getElementsByTag("a").attr("href"));
         }

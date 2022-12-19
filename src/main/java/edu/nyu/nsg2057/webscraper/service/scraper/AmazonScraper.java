@@ -39,6 +39,7 @@ public class AmazonScraper implements Scraper {
             Product product = new Product();
             EcomData ecomData = new EcomData();
             product.setName(element.getElementsByTag("h2").text());
+            ecomData.setName(product.getName());
 
             Elements s = element.getElementsByTag("h2").select("a");
             if (!s.isEmpty()) ecomData.setURL(s.first().attr("href"));

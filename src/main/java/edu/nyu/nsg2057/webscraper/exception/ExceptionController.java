@@ -13,9 +13,9 @@ public class ExceptionController {
     public ResponseEntity<Object> validationException(Exception exception) {
         return new ResponseEntity<>("Invalid request " + exception.getLocalizedMessage() , HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<Object> exception(Exception exception) {
-        return new ResponseEntity<>("Something went wrong in Backend" + exception.getLocalizedMessage() , HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    public ResponseEntity<Object> exception(Exception exception) {
+//        return new ResponseEntity<>(exception."Something went wrong in Backend " + exception.getLocalizedMessage() , HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
 }
