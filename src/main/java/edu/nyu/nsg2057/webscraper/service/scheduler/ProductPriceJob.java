@@ -40,8 +40,6 @@ public class ProductPriceJob {
     @Async
     @Scheduled(fixedRate = 3600000)
     public void updateProductDB() {
-        EmailDetails ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Started", "Update product Job Started at " + LocalDateTime.now());
-        System.out.println(emailService.sendPrimaryEmail(ed));
         Executor executor = Executors.newCachedThreadPool();
         productService.getAllProducts().parallelStream().forEach(
                 p ->{
@@ -53,8 +51,6 @@ public class ProductPriceJob {
                         }
                     });
                 });
-        ed = new EmailDetails("venkatesha2017@gmail.com", "Update product Job Stopped", "Update product Job Stopped at " + LocalDateTime.now());
-        System.out.println(emailService.sendPrimaryEmail(ed));
     }
 
 
