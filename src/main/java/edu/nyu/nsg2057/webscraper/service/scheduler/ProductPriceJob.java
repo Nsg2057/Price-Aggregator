@@ -33,6 +33,8 @@ public class ProductPriceJob {
     @Autowired
     AmazonScraper amazonScraper;
     @Autowired
+    CostcoScraper costcoScraper;
+    @Autowired
     EmailService emailService;
     @Autowired
     MonitorService monitorService;
@@ -55,21 +57,30 @@ public class ProductPriceJob {
 
 
     private void priceFetchJob(Product p) {
-        Map<Ecom, EcomData> g = p.getPriceList();
-        EcomData a = g.get(Ecom.AMAZON);
-        EcomData w = g.get(Ecom.WALMART);
-        EcomData b = g.get(Ecom.BESTBUY);
-        Map<Ecom, EcomData> n = new HashMap<>();
-        if (a.getURL() != null) a.setPrice(amazonScraper.getPriceChange(a.getURL()));
-        if (w.getURL() != null) w.setPrice(walmartScraper.getPriceChange(w.getURL()));
-        if (b.getURL() != null) b.setPrice(bestBuyScraper.getPriceChange(b.getURL()));
-        n.put(Ecom.WALMART, w);
-        n.put(Ecom.BESTBUY, b);
-        n.put(Ecom.AMAZON, a);
-        if (!n.equals(g)){
+        try {
+            Map<Ecom, EcomData> g = p.getPriceList();
+            EcomData a = g.get(Ecom.AMAZON);
+            EcomData w = g.get(Ecom.WALMART);
+            EcomData b = g.get(Ecom.BESTBUY);
+            EcomData c = g.get(Ecom.COSTCO);
+            Map<Ecom, EcomData> n = new HashMap<>();
+            if (a.getURL() != null) a.setPrice(amazonScraper.getPriceChange(a.getURL()));
+            if (w.getURL() != null) w.setPrice(walmartScraper.getPriceChange(w.getURL()));
+            if (b.getURL() != null) b.setPrice(bestBuyScraper.getPriceChange(b.getURL()));
+            if (c.getURL() != null) c.setPrice(costcoScraper.getPriceChange(c.getURL()));
+            n.put(Ecom.WALMART, w);
+            n.put(Ecom.BESTBUY, b);
+            n.put(Ecom.AMAZON, a);
+            n.put(Ecom.COSTCO, c);
 
-        p.setPriceList(n);
-        productService.updateProduct(p);
+            if (!n.equals(g)){
+
+            p.setPriceList(n);
+                System.out.println(p);
+            productService.updateProduct(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
